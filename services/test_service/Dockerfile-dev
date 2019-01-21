@@ -1,0 +1,22 @@
+# base image, using Ubuntu because Alpine takes ages to setup pandas and paramiko
+FROM ubuntu:18.04
+
+# update and install dependencies
+RUN apt-get update && apt-get install -y python-pip
+
+# set working directory
+WORKDIR /usr/src/app
+
+# ad and install requirements
+COPY requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
+
+# add entrypoint.sh
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod 755 /usr/src/app/entrypoint.sh
+
+# add app
+COPY . /usr/src/app
+
+# run server
+CMD ["/usr/src/app/entrypoint.sh"]

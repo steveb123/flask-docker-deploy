@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+
+  test_service:
+    build:
+      context: ./services/test_service
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/test_service:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+
+  nginx:
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile-dev
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - test_service 
