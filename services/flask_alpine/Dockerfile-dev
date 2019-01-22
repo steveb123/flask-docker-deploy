@@ -1,8 +1,9 @@
-# base image, using Ubuntu because Alpine takes ages to setup pandas and paramiko
-FROM ubuntu:18.04
+# base image
+FROM python:3.6.5-alpine
 
-# update and install dependencies
-RUN apt-get update && apt-get install -y python-pip
+# new
+# install dependencies
+RUN apk update && apk add --virtual build-deps gcc python-dev musl-dev
 
 # set working directory
 WORKDIR /usr/src/app
@@ -19,4 +20,4 @@ RUN chmod 755 /usr/src/app/entrypoint.sh
 COPY . /usr/src/app
 
 # run server
-CMD ["/usr/src/app/entrypoint.sh"]
+CMD ["sh", "/usr/src/app/entrypoint.sh"]

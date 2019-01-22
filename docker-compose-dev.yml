@@ -2,18 +2,29 @@ version: '3.6'
 
 services:
 
-  test_service:
+  flask_ubuntu:
     build:
-      context: ./services/test_service
+      context: ./services/flask_ubuntu
       dockerfile: Dockerfile-dev
     volumes:
-      - './services/test_service:/usr/src/app'
+      - './services/flask_ubuntu:/usr/src/app'
     ports:
       - 5001:5000
     environment:
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
 
+  flask_alpine:
+    build:
+      context: ./services/flask_alpine
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/flask_alpine:/usr/src/app'
+    ports:
+      - 5002:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
   nginx:
     build:
       context: ./services/nginx
@@ -22,4 +33,5 @@ services:
     ports:
       - 80:80
     depends_on:
-      - test_service 
+      - flask_ubuntu
+      - flask_alpine

@@ -2,17 +2,17 @@ server {
 
   listen 80;
 
-  location /flask_ubuntu/ {
-    proxy_pass        http://flask_ubuntu:5000/;
+  location /flask_ubuntu {
+    proxy_pass        http://flask_ubuntu:5001;
     proxy_redirect    default;
     proxy_set_header  Host $host;
     proxy_set_header  X-Real-IP $remote_addr;
     proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header  X-Forwarded-Host $server_name;
+    proxy_set_header   X-Forwarded-Host $server_name;
   }
 
-  location /flask_alpine/ {
-    proxy_pass        http://flask_alpine:5000/;
+  location /flask_alpine {
+    proxy_pass        http://flask_alpine:5002;
     proxy_redirect    default;
     proxy_set_header  Host $host;
     proxy_set_header  X-Real-IP $remote_addr;
